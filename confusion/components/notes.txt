@@ -1,0 +1,10 @@
+Stack Navigation
+
+-> Provides support for tranisition between screens
+-> Managed navigation history
+   --- Similar to web browser
+-> Provides the gestures and animations when navigation between routes in the Stack.
+   --- Enables you to go back, tied to Android back button
+
+Other types of navigators are: Drawer,Tab
+
