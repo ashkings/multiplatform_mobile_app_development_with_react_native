@@ -33,7 +33,7 @@ class DishDetail extends Component{
     }
 
     //Title for the page in navigation bar
-
+    
     static navigationOptions = {
         title: 'Dish Details'
     };
