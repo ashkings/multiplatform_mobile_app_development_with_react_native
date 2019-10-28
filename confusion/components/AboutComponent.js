@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { ScrollView, View, StyleSheet, FlatList, Image } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
-import { Paragraph } from 'react-native-paper'
-import { LEADERS } from '../shared/leaders';
+import { Paragraph } from 'react-native-paper';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+      leaders: state.leaders
+    }
+  }
 
 function RenderHistory(){
     return(
@@ -23,12 +30,7 @@ function RenderHistory(){
     )
 }
 class About extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            leaders: LEADERS
-        }
-    }
+
     static navigationOptions = {
         title: 'About',
     }
@@ -37,22 +39,20 @@ class About extends Component{
             <ScrollView>
                 <RenderHistory />
                 <Card title='Corporate Leadership'>
-                    <FlatList data={this.state.leaders}
+                    <FlatList data={this.props.leaders.leaders}
                     keyExtractor={item=>item.id}
                     renderItem={({item}) => (
                         <ListItem containerStyle={{borderBottomWidth: 0}}
                         hideChevron={true}
                         title={item.name}
                         subtitle={item.description}
-                        leftAvatar={<Image style={styles.image} source={require('./images/alberto.png')}/>}/>
+                        leftAvatar={{source:{uri: baseUrl+item.image }}}/>
                     )}/>
                 </Card>
         </ScrollView>
         );
     }
 }
-
-export default About
 
 const styles = StyleSheet.create({
     image: {
@@ -64,3 +64,5 @@ const styles = StyleSheet.create({
         margin:10
     }
 })
+
+export default connect(mapStateToProps)(About);
