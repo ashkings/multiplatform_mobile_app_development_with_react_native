@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, View, StyleSheet, FlatList, Image } from 'react-native';
+import { ScrollView, View, StyleSheet, FlatList, Text } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { Paragraph } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
@@ -35,22 +36,44 @@ class About extends Component{
         title: 'About',
     }
     render(){
-        return(
-            <ScrollView>
-                <RenderHistory />
-                <Card title='Corporate Leadership'>
-                    <FlatList data={this.props.leaders.leaders}
-                    keyExtractor={item=>item.id}
-                    renderItem={({item}) => (
-                        <ListItem containerStyle={{borderBottomWidth: 0}}
-                        hideChevron={true}
-                        title={item.name}
-                        subtitle={item.description}
-                        leftAvatar={{source:{uri: baseUrl+item.image }}}/>
-                    )}/>
-                </Card>
-        </ScrollView>
-        );
+        if(this.props.leaders.isLoading){
+            return(
+                <ScrollView>
+                    <RenderHistory />
+                    <Card title='Corporate Leadership'>
+                        <Loading />
+                    </Card>
+                </ScrollView>    
+            )
+        }
+        else if(this.props.leaders.errMess){
+            return(
+                <ScrollView>
+                    <RenderHistory />
+                    <Card title='Corporate Leadership'>
+                        <Text>{this.props.leaders.errMess}</Text>
+                    </Card>
+                </ScrollView>    
+            )
+        }
+        else{
+            return(
+                <ScrollView>
+                    <RenderHistory />
+                    <Card title='Corporate Leadership'>
+                        <FlatList data={this.props.leaders.leaders}
+                        keyExtractor={item=>item.id}
+                        renderItem={({item}) => (
+                            <ListItem containerStyle={{borderBottomWidth: 0}}
+                            hideChevron={true}
+                            title={item.name}
+                            subtitle={item.description}
+                            leftAvatar={{source:{uri: baseUrl+item.image }}}/>
+                        )}/>
+                    </Card>
+                </ScrollView>
+            );
+        }
     }
 }
 
