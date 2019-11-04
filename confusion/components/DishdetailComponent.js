@@ -127,6 +127,7 @@ class DishDetail extends Component{
             author: '',
             comment: ''
         })
+        this.toggleModal()
     }
     render() {
         const dishId = this.props.navigation.getParam('dishId','');
