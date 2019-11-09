@@ -27,8 +27,12 @@ function RenderDish(props) {
     handleViewRef = ref => this.view = ref;
 
     const recognizeDrag = ({ MoveX, MoveY, dx, dy}) => {
-        if(dx < -200)
-            return true;
+        // if(dx < -200)
+        //     return true;
+        // else if(dx > 200)
+        //     return true;
+        if (dx)
+            return dx
         else
             return false
     }
@@ -42,7 +46,7 @@ function RenderDish(props) {
                 .then(endState => console.log(endState.finished?'finished':'cancelled'));};
         },
         onPanResponderEnd: (e, gestureState) => {
-            if(recognizeDrag(gestureState))
+            if(recognizeDrag(gestureState)< -200)
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' + dish.name + ' to favorite ?',
@@ -53,6 +57,8 @@ function RenderDish(props) {
                     ],
                     {cancelable: false}
                 );
+            else if(recognizeDrag(gestureState) > -200)
+                props.toggleModal()
                 return true;
         }
     })
